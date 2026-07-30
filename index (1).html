@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swastik Sengupta — quantitative research</title>
+<meta name="description" content="Quantitative research across aerospace and software. Measurement, benchmark validity, reproducibility.">
+<meta property="og:title" content="Swastik Sengupta">
+<meta property="og:description" content="Quantitative research · aerospace & software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=Orbitron:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#000000; --deep:#050508; --slate:#0D1117;
+    --ink:#C6CCD4; --dim:#5C6167; --faint:#262A30; --line:#0D1117;
+    --green:#005A43; --mint:#9ADBC8; --red:#5A0000; --red-hot:#8E1414; --bronze:#864813;
+    --mil:'Rajdhani',system-ui,sans-serif;
+    --pix:'Silkscreen',monospace;
+    --tech:'Orbitron',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--mil);font-size:16.5px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;position:relative;overflow-x:hidden}
+  body.locked{overflow:hidden}
+  ::selection{background:var(--green);color:var(--mint)}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+
+  /* ═══ TAPE LAYERS ═══ */
+  .lay{position:fixed;pointer-events:none}
+  .scan{inset:0;z-index:90;background:repeating-linear-gradient(to bottom,rgba(198,204,212,.045) 0,rgba(198,204,212,.045) 1px,transparent 1px,transparent 3px);mix-blend-mode:overlay}
+  .grain{inset:-140px;z-index:91;opacity:.1;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");animation:grain .9s steps(7) infinite}
+  @keyframes grain{0%{transform:translate(0,0)}14%{transform:translate(-16px,9px)}28%{transform:translate(11px,-13px)}42%{transform:translate(-9px,15px)}57%{transform:translate(14px,6px)}71%{transform:translate(-13px,-10px)}85%{transform:translate(7px,12px)}100%{transform:translate(0,0)}}
+  .track{left:0;right:0;height:104px;z-index:92;background:linear-gradient(to bottom,transparent,rgba(198,204,212,.02) 34%,rgba(154,219,200,.05) 50%,rgba(198,204,212,.02) 66%,transparent);animation:track 7.5s linear infinite}
+  @keyframes track{0%{top:-14%;opacity:0}5%{opacity:1}95%{opacity:1}100%{top:106%;opacity:0}}
+  .drop{left:0;right:0;height:2px;z-index:94;background:rgba(198,204,212,.5);opacity:0;animation:drop 11s steps(1) infinite}
+  @keyframes drop{0%,90%,100%{opacity:0;top:32%}91%{opacity:.85;top:32%}91.7%{opacity:0}94%{opacity:.6;top:64%}94.6%{opacity:0}}
+  .head{left:0;right:0;bottom:0;height:15px;z-index:93;opacity:.5;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='16'%3E%3Cfilter id='h'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .95' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23h)'/%3E%3C/svg%3E");animation:head .28s steps(3) infinite}
+  @keyframes head{0%{transform:translateX(0)}33%{transform:translateX(-22px)}66%{transform:translateX(16px)}100%{transform:translateX(0)}}
+  .vig{inset:0;z-index:95;background:radial-gradient(ellipse at 50% 48%,transparent 42%,rgba(0,0,0,.8) 100%)}
+  .flick{inset:0;z-index:96;background:rgba(198,204,212,.014);animation:flick 5s steps(1) infinite}
+  @keyframes flick{0%,88%,100%{opacity:0}89%{opacity:.6}90%{opacity:0}93%{opacity:.4}94%{opacity:0}}
+  .tc{position:fixed;right:18px;bottom:26px;z-index:97;pointer-events:none;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);text-shadow:0 0 12px rgba(0,90,67,.6)}
+  .tc .lbl{color:var(--faint);margin-right:8px}
+  @media(max-width:560px){.tc{right:12px;bottom:20px;font-size:10px}}
+
+  /* ═══ layout ═══ */
+  .col{max-width:660px;margin:0 auto;padding:0 26px;position:relative;z-index:2}
+  .top{display:flex;justify-content:space-between;align-items:center;padding:26px 0 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+  .top .id{font-family:var(--tech);font-weight:700;font-size:13px;letter-spacing:.16em;color:var(--ink);
+    text-shadow:-1px 0 rgba(142,20,20,.65),1px 0 rgba(154,219,200,.5);animation:split 5.5s steps(1) infinite}
+  @keyframes split{0%,88%,100%{text-shadow:-1px 0 rgba(142,20,20,.65),1px 0 rgba(154,219,200,.5)}90%{text-shadow:-4px 0 rgba(142,20,20,.9),4px 0 rgba(154,219,200,.8)}92%{text-shadow:-1px 0 rgba(142,20,20,.65),1px 0 rgba(154,219,200,.5)}}
+  .top nav{display:flex;gap:20px}
+  .top nav a{color:var(--dim);text-decoration:none;transition:color .2s}
+  .top nav a:hover{color:var(--mint)}
+
+  .bars{display:flex;height:8px;width:132px;margin-top:64px;opacity:.72}
+  .bars i{flex:1}
+  .bars i:nth-child(1){background:#8A8F95}.bars i:nth-child(2){background:#917100}
+  .bars i:nth-child(3){background:#005A43}.bars i:nth-child(4){background:#9ADBC8}
+  .bars i:nth-child(5){background:#864813}.bars i:nth-child(6){background:#5A0000}
+  .bars i:nth-child(7){background:#0D1421}
+
+  /* PIXEL status line */
+  .status{margin-top:14px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;
+    font-family:var(--pix);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .status .rec{display:flex;align-items:center;gap:7px;color:var(--dim)}
+  .status .rec b{width:6px;height:6px;background:var(--red-hot);box-shadow:0 0 8px rgba(142,20,20,.9);animation:blink 1.5s steps(1) infinite}
+  @keyframes blink{0%,52%{opacity:1}53%,100%{opacity:.12}}
+
+  .lede{margin-top:26px;font-size:25px;line-height:1.36;font-weight:500;color:var(--ink)}
+  p{margin-top:19px;color:var(--dim);font-size:16.5px}
+  .l{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--faint);padding-bottom:1px;transition:border-color .2s,color .2s}
+  .l:hover{border-color:var(--mint);color:var(--mint)}
+  .rule{height:1px;background:var(--line);margin:54px 0 0}
+
+  /* PIXEL section labels */
+  .lab{margin-top:54px;font-family:var(--pix);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--mint);display:flex;align-items:center;gap:12px;text-shadow:0 0 10px rgba(154,219,200,.25)}
+  .lab::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* ═══ project rows (click → overlay) ═══ */
+  .work{margin-top:18px}
+  .row{display:grid;grid-template-columns:26px 1fr auto;gap:16px;align-items:baseline;padding:15px 0;
+    border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:0;border-right:0;border-top:0;
+    width:100%;text-align:left;color:inherit;font:inherit;
+    transition:padding-left .28s cubic-bezier(.2,.7,.2,1),background .28s}
+  .row:first-child{border-top:1px solid var(--line)}
+  .row:hover,.row:focus-visible{padding-left:9px;background:linear-gradient(90deg,rgba(0,90,67,.09),transparent 70%)}
+  .row .n{font-family:var(--pix);font-size:9px;color:var(--faint)}
+  .row:hover .n{color:var(--mint)}
+  .row .t{font-size:18px;color:var(--ink);font-weight:600;display:block}
+  .row:hover .t{text-shadow:-.7px 0 rgba(142,20,20,.5),.7px 0 rgba(154,219,200,.45)}
+  .row .s{display:block;color:var(--dim);font-size:15px;line-height:1.55;margin-top:2px}
+  .row .y{font-family:var(--pix);font-size:8px;color:var(--faint);white-space:nowrap}
+  @media(max-width:560px){.row{grid-template-columns:1fr;gap:4px}.row .y{margin-top:4px}.row:hover{padding-left:0}}
+
+  /* ═══ AVARA-STYLE OVERLAY ═══ */
+  .ov{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.94);backdrop-filter:blur(6px);
+    opacity:0;visibility:hidden;transition:opacity .32s,visibility .32s;overflow-y:auto}
+  .ov.open{opacity:1;visibility:visible}
+  .ov-in{max-width:760px;margin:0 auto;padding:78px 26px 90px;position:relative}
+  .ov-bar{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;
+    padding:20px 26px;background:linear-gradient(to bottom,rgba(0,0,0,.95),transparent);z-index:2}
+  .ov-idx{font-family:var(--pix);font-size:10px;color:var(--mint)}
+  .ov-ctl{display:flex;gap:8px}
+  .ov-btn{background:transparent;border:1px solid var(--line);color:var(--dim);font-family:var(--pix);
+    font-size:10px;padding:8px 12px;cursor:pointer;transition:border-color .2s,color .2s}
+  .ov-btn:hover:not(:disabled){border-color:var(--mint);color:var(--mint)}
+  .ov-btn:disabled{opacity:.28;cursor:not-allowed}
+  .ov h2{font-family:var(--mil);font-size:32px;font-weight:700;line-height:1.15;color:var(--ink);margin-bottom:6px}
+  .ov .meta{font-family:var(--pix);font-size:9px;color:var(--faint);letter-spacing:.06em;margin-bottom:26px}
+  .ov p{font-size:16.5px;color:var(--dim);margin-top:16px}
+  .ov .figs{margin-top:26px;display:flex;flex-direction:column;gap:14px}
+  .figbox{border:1px solid var(--line);background:var(--deep);overflow:hidden}
+  .figbox img{width:100%;image-rendering:auto}
+  .figbox .cap{font-family:var(--pix);font-size:8px;color:var(--faint);padding:9px 12px;border-top:1px solid var(--line)}
+  /* NO SIGNAL placeholder */
+  .nosig{aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+    background:repeating-linear-gradient(45deg,#050508,#050508 8px,#0A0A12 8px,#0A0A12 16px);position:relative}
+  .nosig .bars2{display:flex;height:22px;width:154px;opacity:.5}
+  .nosig .bars2 i{flex:1}
+  .nosig .bars2 i:nth-child(1){background:#8A8F95}.nosig .bars2 i:nth-child(2){background:#917100}
+  .nosig .bars2 i:nth-child(3){background:#005A43}.nosig .bars2 i:nth-child(4){background:#9ADBC8}
+  .nosig .bars2 i:nth-child(5){background:#864813}.nosig .bars2 i:nth-child(6){background:#5A0000}
+  .nosig .bars2 i:nth-child(7){background:#0D1421}
+  .nosig span{font-family:var(--pix);font-size:10px;color:var(--dim);letter-spacing:.08em}
+  .ov .links{margin-top:30px;display:flex;flex-wrap:wrap;gap:20px;font-family:var(--pix);font-size:10px}
+  .ov .links a{color:var(--dim);text-decoration:none;border-bottom:1px solid var(--faint);padding-bottom:2px;transition:color .2s,border-color .2s}
+  .ov .links a:hover{color:var(--mint);border-color:var(--mint)}
+  @media(max-width:560px){.ov h2{font-size:24px}.ov-in{padding:74px 20px 80px}}
+
+  .fig{margin-top:20px;font-family:var(--mono);font-size:12.5px;line-height:1.95;color:var(--dim);
+    border-left:1px solid var(--green);padding-left:20px}
+  .fig b{color:var(--ink);font-weight:400}
+  .fig em{color:var(--mint);font-style:normal}
+  .fig .sep{display:block;height:10px}
+
+
+  .ends{margin-top:24px;display:flex;flex-wrap:wrap;gap:24px;font-family:var(--pix);font-size:10px;text-transform:uppercase}
+  .ends a{color:var(--dim);text-decoration:none;position:relative;transition:color .2s}
+  .ends a::after{content:"";position:absolute;left:0;bottom:-5px;width:100%;height:1px;background:var(--mint);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+  .ends a:hover{color:var(--mint)}
+  .ends a:hover::after{transform:scaleX(1)}
+
+  footer{margin-top:64px;padding:22px 0 70px;border-top:1px solid var(--line);
+    font-family:var(--pix);font-size:8px;text-transform:uppercase;color:var(--faint);
+    display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+  .rev{opacity:0;transform:translateY(9px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rev.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .grain,.track,.head,.drop,.flick,.tc{display:none}
+    .rev{opacity:1;transform:none}html{scroll-behavior:auto}*{transition:none!important;animation:none!important}
+  }
+  :focus-visible{outline:1px solid var(--mint);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="lay scan" aria-hidden="true"></div>
+<div class="lay grain" aria-hidden="true"></div>
+<div class="lay track" aria-hidden="true"></div>
+<div class="lay drop" aria-hidden="true"></div>
+<div class="lay head" aria-hidden="true"></div>
+<div class="lay vig" aria-hidden="true"></div>
+<div class="lay flick" aria-hidden="true"></div>
+<div class="tc" aria-hidden="true"><span class="lbl">TC</span><span id="tc">00:00:00:00</span></div>
+
+<div class="col">
+  <div class="top">
+    <span class="id">S.S.</span>
+    <nav><a href="#work">Work</a><a href="https://github.com/SwastikSengupta" target="_blank" rel="noopener">GitHub</a><a href="#contact">Contact</a></nav>
+  </div>
+
+  <div class="bars rev" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="status rev"><span class="rec"><b></b> Rec</span><span>CH 00</span><span>SF Bay Area</span><span>2026</span></div>
+
+  <p class="lede rev">Hi — I'm Swastik. I work on measurement: whether the numbers we report about a system mean what we say they mean.</p>
+  <p class="rev">Most of what I do is one question asked in different places. When something scores well, is the score measuring the capability it names, or an artifact of how the test was built? That question turns out to be portable — it works on <a class="l" href="https://github.com/SwastikSengupta/AISec2026Submission" target="_blank" rel="noopener">security benchmarks</a> about as well as it works on <a class="l" href="https://github.com/SwastikSengupta/NATO-financing-data" target="_blank" rel="noopener">defense-financing indicators</a>.</p>
+  <p class="rev">I'm at Las Positas on a Berkeley transfer pathway and enrolled at IIT Madras for data science. Lately I've been splitting time between benchmark validity, allied defense financing with MIT's Deep Tech &amp; Geopolitics Lab, and exoplanet detection at NASA Glenn.</p>
+  <p class="rev">I care about reproducibility more than is probably normal, read a lot of semiconductor geopolitics, and think negative results are underrated.</p>
+
+  <div class="rule"></div>
+
+  <div class="lab rev">Selected Work</div>
+  <div class="work" id="work"></div>
+
+  <div class="lab rev">One Result</div>
+  <p class="rev">The decomposition works on NSL-KDD. Held-out performance there is mostly explained by how often a class appeared in training, not by how much model you throw at it:</p>
+  <div class="fig rev">
+    <b>NSL-KDD</b> — capacity <em>≈ 0</em> · novelty 0.48 · frequency 0.75<br>
+    logistic regression 0.744 → MLP 0.803
+    <span class="sep"></span>
+    <b>UNSW-NB15</b> — same method, <em>≈ nothing</em>
+  </div>
+  <p class="rev">Six F1 points across two orders of magnitude of capacity, and then the whole structure vanishes on the second dataset. Either that benchmark is better built or my method doesn't transfer. Both results are in the artifact — the second one is the more interesting.</p>
+
+  <div class="rule"></div>
+
+  <div class="lab rev" id="contact">Say Hi</div>
+  <div class="ends rev">
+    <a href="mailto:swastik.sngpta@gmail.com">Email</a>
+    <a href="https://github.com/SwastikSengupta" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://www.linkedin.com/in/swastiksngpta" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://orcid.org/0009-0002-9414-7443" target="_blank" rel="noopener">ORCID</a>
+  </div>
+
+  <footer><span>© 2026 Swastik Sengupta</span><span>Quantitative Research</span></footer>
+</div>
+
+<!-- ═══ project overlay ═══ -->
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ovTitle">
+  <div class="ov-bar">
+    <span class="ov-idx" id="ovIdx">01 / 04</span>
+    <div class="ov-ctl">
+      <button class="ov-btn" id="ovPrev" aria-label="Previous project">← Prev</button>
+      <button class="ov-btn" id="ovNext" aria-label="Next project">Next →</button>
+      <button class="ov-btn" id="ovClose" aria-label="Close">Esc ✕</button>
+    </div>
+  </div>
+  <div class="ov-in">
+    <h2 id="ovTitle"></h2>
+    <div class="meta" id="ovMeta"></div>
+    <div id="ovBody"></div>
+    <div class="figs" id="ovFigs"></div>
+    <div class="links" id="ovLinks"></div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   PROJECTS — edit here. Drop figure files in an /img folder
+   and put the path in `figs`. Leave figs empty for NO SIGNAL.
+   ══════════════════════════════════════════════════════════ */
+const PROJECTS=[
+  {
+    t:"SFCD",
+    meta:"2026 · Evaluation · Security · Submitted to ACM AISec 2026",
+    short:"Splits benchmark performance into model capacity, novelty, and class frequency.",
+    body:[
+      "Machine-learning models score highly on standard cybersecurity benchmarks and then fall apart on unfamiliar data. SFCD is a decomposition that asks where a reported number actually comes from: how much is model capacity, how much is the novelty of the input relative to training support, and how much is simply how often that class appeared during training.",
+      "Detection tracks training frequency, not model design. Among attack families present in training, recall rises with frequency at Spearman rho = 0.77. Families absent from training are detected poorly regardless of what model you use. A missed attack like guess_passwd produces anomaly scores that sit inside the normal-traffic distribution, so no threshold separates it.",
+      "Across 72 verified published results, reported NSL-KDD accuracy splits cleanly by evaluation protocol: papers using the official KDDTest+ split cluster near 81 percent, papers reshuffling into custom splits cluster near 98. The benchmark number depends more on the protocol than on the method.",
+      "Then the decomposition returns approximately nothing on UNSW-NB15. Capacity is inert on both benchmarks, but support-novelty and frequency are large on NSL-KDD and near zero on UNSW-NB15. Either that benchmark is better constructed or the method does not transfer. Both results ship in the artifact, with pinned dependencies and reference outputs."
+    ],
+    figs:[
+      {src:"img/sfcd-recall-anomaly.png", cap:"Recall against training frequency by class · anomaly scores for caught vs missed attacks"},
+      {src:"img/sfcd-protocol-decomp.png", cap:"Reported NSL-KDD accuracy across 72 results by protocol · SFCD decomposition vectors, two benchmarks"}
+    ],
+    links:[["Repository","https://github.com/SwastikSengupta/AISec2026Submission"]]
+  },
+  {
+    t:"Allied Defense Financing",
+    meta:"2026 · Policy · Data · MIT Deep Tech & Geopolitics Lab",
+    short:"Debt-service burden as a screen for multilateral financing need.",
+    body:[
+      "A collaboration with MIT's Deep Tech & Geopolitics Lab supporting the Defense, Security & Resilience Bank concept proposed by Canada and NATO partners.",
+      "The question: which states have a structural case for multilateral defense financing rather than a political one? Debt-service burden works as a screen. It separates countries constrained by existing obligations from countries simply choosing to spend less.",
+      "The spread across Indo-Pacific and GGI-relevant states is enormous — interest payments run from 0.47 percent of government revenue in Singapore to 79.87 percent in Sri Lanka, against a panel median of 8.94 percent. Two GGI founding partners, India at 33.98 and the United Kingdom at 8.32, sit on opposite sides of that median, which is the point: founding membership and fiscal headroom are not the same variable.",
+      "The output is an open dataset plus the analysis built on it, so the screening logic can be argued with rather than taken on trust."
+    ],
+    figs:[
+      {src:"img/nato-interest-burden.png", cap:"Indo-Pacific and GGI-relevant states by interest burden · dotted line is the panel median at 8.94 percent"},
+      {src:"img/nato-interest-table.png", cap:"Interest payments as a share of government revenue, most recent observation"}
+    ],
+    links:[["Repository","https://github.com/SwastikSengupta/NATO-financing-data"]]
+  },
+  {
+    t:"Data-Leakage Reproduction",
+    meta:"2026 · Reproduction · 15 UCI datasets",
+    short:"Independent reproduction of a published estimation-leakage study.",
+    body:[
+      "A full reproduction of a published data-leakage study across 15 UCI datasets, confirming its estimation-leakage findings independently.",
+      "The reproduction surfaced something the original did not foreground: measured capacity predicts leakage severity almost perfectly. Capacity here is each learner's training AUC on randomised labels, computed on the real feature matrices — a direct measure of how much a model can memorise noise.",
+      "Across eleven learners the relationship holds at Spearman rho = 0.982. Tree and instance-based methods sit at the high-capacity, high-leakage end; pooled fits sit at the low end. The models that can memorise are the models that leak."
+    ],
+    figs:[
+      {src:"img/leakage-capacity.png", cap:"Measured capacity against Class III leakage severity, eleven learners · red are tree and instance based, blue are pooled fits"}
+    ],
+    links:[["Repository","https://github.com/SwastikSengupta/TMLR"]]
+  },
+  {
+    t:"Bio-CS",
+    meta:"2026 · Machine Learning · Biomedical Data",
+    short:"Machine learning at the biomedical-data interface.",
+    body:[
+      "Applying the same evaluation discipline to biomedical data, where benchmark shortcuts are unusually easy to mistake for signal and the cost of mistaking them is higher.",
+      "Work in progress — the repository is the current state."
+    ],
+    figs:[],
+    links:[["Repository","https://github.com/SwastikSengupta/Genesis-BioMed-CS"]]
+  },
+  {
+    t:"Exoplanet Detection",
+    meta:"2026 · NASA Glenn Research Center · Open Source",
+    short:"2,000+ observations across 15+ datasets; 35 validated analytical outputs.",
+    body:[
+      "Computational analysis of exoplanetary data for an open-source detection project at NASA Glenn Research Center.",
+      "Analyzed over 2,000 observations spanning 15+ datasets, producing 35 validated analytical outputs for downstream scientific interpretation."
+    ],
+    figs:[],
+    links:[["GitHub","https://github.com/SwastikSengupta"]]
+  }
+];
+
+/* build rows */
+const work=document.getElementById('work');
+PROJECTS.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='row rev'; b.type='button';
+  b.innerHTML=`<span class="n">${String(i+1).padStart(2,'0')}</span>
+    <span><span class="t">${p.t}</span><span class="s">${p.short}</span></span>
+    <span class="y">${p.meta.split(' · ')[0]}</span>`;
+  b.addEventListener('click',()=>open_(i));
+  work.appendChild(b);
+});
+
+/* overlay */
+const ov=document.getElementById('ov');
+let cur=0, lastFocus=null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+function render(i){
+  const p=PROJECTS[i]; cur=i;
+  document.getElementById('ovIdx').textContent=String(i+1).padStart(2,'0')+' / '+String(PROJECTS.length).padStart(2,'0');
+  document.getElementById('ovTitle').textContent=p.t;
+  document.getElementById('ovMeta').textContent=p.meta;
+  document.getElementById('ovBody').innerHTML=p.body.map(x=>'<p>'+esc(x)+'</p>').join('');
+  document.getElementById('ovFigs').innerHTML = p.figs.length
+    ? p.figs.map(f=>`<div class="figbox"><img src="${esc(f.src)}" alt="${esc(f.cap)}" loading="lazy"><div class="cap">${esc(f.cap)}</div></div>`).join('')
+    : `<div class="figbox"><div class="nosig"><div class="bars2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>No Signal</span></div><div class="cap">Figure pending</div></div>`;
+  document.getElementById('ovLinks').innerHTML=p.links.map(([l,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('');
+  document.getElementById('ovPrev').disabled = i===0;
+  document.getElementById('ovNext').disabled = i===PROJECTS.length-1;
+  ov.scrollTop=0;
+}
+function open_(i){lastFocus=document.activeElement; render(i); ov.classList.add('open'); document.body.classList.add('locked'); document.getElementById('ovClose').focus();}
+function close_(){ov.classList.remove('open'); document.body.classList.remove('locked'); if(lastFocus)lastFocus.focus();}
+document.getElementById('ovClose').addEventListener('click',close_);
+document.getElementById('ovPrev').addEventListener('click',()=>cur>0&&render(cur-1));
+document.getElementById('ovNext').addEventListener('click',()=>cur<PROJECTS.length-1&&render(cur+1));
+ov.addEventListener('click',e=>{if(e.target===ov)close_()});
+addEventListener('keydown',e=>{
+  if(!ov.classList.contains('open'))return;
+  if(e.key==='Escape')close_();
+  if(e.key==='ArrowLeft'&&cur>0)render(cur-1);
+  if(e.key==='ArrowRight'&&cur<PROJECTS.length-1)render(cur+1);
+});
+
+/* reveals */
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.1,rootMargin:'0px 0px -5% 0px'});
+document.querySelectorAll('.rev').forEach((el,i)=>{el.style.transitionDelay=(Math.min(i,8)*45)+'ms';io.observe(el)});
+
+/* timecode */
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+  const el=document.getElementById('tc'),t0=Date.now(),z=n=>String(n).padStart(2,'0');
+  setInterval(()=>{const ms=Date.now()-t0;
+    el.textContent=z(Math.floor(ms/3600000))+':'+z(Math.floor(ms/60000)%60)+':'+z(Math.floor(ms/1000)%60)+':'+z(Math.floor(ms%1000/33.37));},34);
+}
+
+
+</script>
+</body>
+</html>
