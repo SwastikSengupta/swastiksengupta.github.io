@@ -119,15 +119,21 @@
   .figbox img{width:100%;image-rendering:auto}
   .figbox .cap{font-family:var(--pix);font-size:8px;color:var(--faint);padding:9px 12px;border-top:1px solid var(--line)}
   /* NO SIGNAL placeholder */
-  .nosig{aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-    background:repeating-linear-gradient(45deg,#050508,#050508 8px,#0A0A12 8px,#0A0A12 16px);position:relative}
-  .nosig .bars2{display:flex;height:22px;width:154px;opacity:.5}
+  .nosig{aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+    background:repeating-linear-gradient(45deg,#050508,#050508 8px,#0A0A12 8px,#0A0A12 16px);position:relative;overflow:hidden}
+  .nosig .sym{width:56px;height:56px;display:block;position:relative;z-index:2;
+    filter:drop-shadow(0 0 14px rgba(154,219,200,.22));animation:symfloat 4.6s ease-in-out infinite}
+  .nosig .sym svg{width:100%;height:100%;display:block}
+  @keyframes symfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  .nosig .dust{position:absolute;width:26px;height:26px;pointer-events:none;z-index:1}
+  .nosig .dust svg{width:100%;height:100%;display:block}
+  .nosig .bars2{display:flex;height:22px;width:154px;opacity:.5;position:relative;z-index:2}
   .nosig .bars2 i{flex:1}
   .nosig .bars2 i:nth-child(1){background:#8A8F95}.nosig .bars2 i:nth-child(2){background:#917100}
   .nosig .bars2 i:nth-child(3){background:#005A43}.nosig .bars2 i:nth-child(4){background:#9ADBC8}
   .nosig .bars2 i:nth-child(5){background:#864813}.nosig .bars2 i:nth-child(6){background:#5A0000}
   .nosig .bars2 i:nth-child(7){background:#0D1421}
-  .nosig span{font-family:var(--pix);font-size:10px;color:var(--dim);letter-spacing:.08em}
+  .nosig .nstxt{font-family:var(--pix);font-size:10px;color:var(--dim);letter-spacing:.08em;position:relative;z-index:2}
   .ov .links{margin-top:30px;display:flex;flex-wrap:wrap;gap:20px;font-family:var(--pix);font-size:10px}
   .ov .links a{color:var(--dim);text-decoration:none;border-bottom:1px solid var(--faint);padding-bottom:2px;transition:color .2s,border-color .2s}
   .ov .links a:hover{color:var(--mint);border-color:var(--mint)}
@@ -247,10 +253,7 @@ const PROJECTS=[
       "Across 72 verified published results, reported NSL-KDD accuracy splits cleanly by evaluation protocol: papers using the official KDDTest+ split cluster near 81 percent, papers reshuffling into custom splits cluster near 98. The benchmark number depends more on the protocol than on the method.",
       "Then the decomposition returns approximately nothing on UNSW-NB15. Capacity is inert on both benchmarks, but support-novelty and frequency are large on NSL-KDD and near zero on UNSW-NB15. Either that benchmark is better constructed or the method does not transfer. Both results ship in the artifact, with pinned dependencies and reference outputs."
     ],
-    figs:[
-      {src:"img/sfcd-recall-anomaly.png", cap:"Recall against training frequency by class · anomaly scores for caught vs missed attacks"},
-      {src:"img/sfcd-protocol-decomp.png", cap:"Reported NSL-KDD accuracy across 72 results by protocol · SFCD decomposition vectors, two benchmarks"}
-    ],
+    icon:null,
     links:[["Repository","https://github.com/SwastikSengupta/AISec2026Submission"]]
   },
   {
@@ -263,10 +266,7 @@ const PROJECTS=[
       "The spread across Indo-Pacific and GGI-relevant states is enormous — interest payments run from 0.47 percent of government revenue in Singapore to 79.87 percent in Sri Lanka, against a panel median of 8.94 percent. Two GGI founding partners, India at 33.98 and the United Kingdom at 8.32, sit on opposite sides of that median, which is the point: founding membership and fiscal headroom are not the same variable.",
       "The output is an open dataset plus the analysis built on it, so the screening logic can be argued with rather than taken on trust."
     ],
-    figs:[
-      {src:"img/nato-interest-burden.png", cap:"Indo-Pacific and GGI-relevant states by interest burden · dotted line is the panel median at 8.94 percent"},
-      {src:"img/nato-interest-table.png", cap:"Interest payments as a share of government revenue, most recent observation"}
-    ],
+    icon:"emerald",
     links:[["Repository","https://github.com/SwastikSengupta/NATO-financing-data"]]
   },
   {
@@ -278,9 +278,7 @@ const PROJECTS=[
       "The reproduction surfaced something the original did not foreground: measured capacity predicts leakage severity almost perfectly. Capacity here is each learner's training AUC on randomised labels, computed on the real feature matrices — a direct measure of how much a model can memorise noise.",
       "Across eleven learners the relationship holds at Spearman rho = 0.982. Tree and instance-based methods sit at the high-capacity, high-leakage end; pooled fits sit at the low end. The models that can memorise are the models that leak."
     ],
-    figs:[
-      {src:"img/leakage-capacity.png", cap:"Measured capacity against Class III leakage severity, eleven learners · red are tree and instance based, blue are pooled fits"}
-    ],
+    icon:null,
     links:[["Repository","https://github.com/SwastikSengupta/TMLR"]]
   },
   {
@@ -291,7 +289,7 @@ const PROJECTS=[
       "Applying the same evaluation discipline to biomedical data, where benchmark shortcuts are unusually easy to mistake for signal and the cost of mistaking them is higher.",
       "Work in progress — the repository is the current state."
     ],
-    figs:[],
+    icon:"heart",
     links:[["Repository","https://github.com/SwastikSengupta/Genesis-BioMed-CS"]]
   },
   {
@@ -302,7 +300,7 @@ const PROJECTS=[
       "Computational analysis of exoplanetary data for an open-source detection project at NASA Glenn Research Center.",
       "Analyzed over 2,000 observations spanning 15+ datasets, producing 35 validated analytical outputs for downstream scientific interpretation."
     ],
-    figs:[],
+    icon:null,
     links:[["GitHub","https://github.com/SwastikSengupta"]]
   }
 ];
@@ -324,15 +322,78 @@ const ov=document.getElementById('ov');
 let cur=0, lastFocus=null;
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+/* ── pixel symbols ── */
+const PIX = {
+  emerald:`<svg viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#0A6B33">
+      <rect x="6" y="1" width="4" height="1"/><rect x="5" y="2" width="6" height="1"/>
+      <rect x="4" y="3" width="8" height="1"/><rect x="3" y="4" width="10" height="1"/>
+      <rect x="2" y="5" width="12" height="1"/><rect x="2" y="6" width="12" height="1"/>
+      <rect x="2" y="7" width="12" height="1"/><rect x="2" y="8" width="12" height="1"/>
+      <rect x="3" y="9" width="10" height="1"/><rect x="4" y="10" width="8" height="1"/>
+      <rect x="5" y="11" width="6" height="1"/><rect x="6" y="12" width="4" height="1"/>
+    </g>
+    <g fill="#17DD62">
+      <rect x="6" y="2" width="3" height="1"/><rect x="5" y="3" width="5" height="1"/>
+      <rect x="4" y="4" width="6" height="1"/><rect x="3" y="5" width="6" height="1"/>
+      <rect x="3" y="6" width="5" height="1"/><rect x="4" y="7" width="4" height="1"/>
+      <rect x="5" y="8" width="4" height="1"/><rect x="6" y="9" width="3" height="1"/>
+      <rect x="7" y="10" width="2" height="1"/>
+    </g>
+    <g fill="#8CFFB8">
+      <rect x="6" y="3" width="2" height="1"/><rect x="5" y="4" width="2" height="1"/>
+      <rect x="4" y="5" width="2" height="1"/><rect x="4" y="6" width="1" height="1"/>
+    </g>
+  </svg>`,
+  heart:`<svg viewBox="0 0 16 16" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#3B0A0A">
+      <rect x="2" y="2" width="4" height="1"/><rect x="10" y="2" width="4" height="1"/>
+      <rect x="1" y="3" width="1" height="4"/><rect x="14" y="3" width="1" height="4"/>
+      <rect x="6" y="3" width="1" height="1"/><rect x="9" y="3" width="1" height="1"/>
+      <rect x="7" y="4" width="2" height="1"/>
+      <rect x="2" y="8" width="1" height="1"/><rect x="13" y="8" width="1" height="1"/>
+      <rect x="3" y="9" width="1" height="1"/><rect x="12" y="9" width="1" height="1"/>
+      <rect x="4" y="10" width="1" height="1"/><rect x="11" y="10" width="1" height="1"/>
+      <rect x="5" y="11" width="1" height="1"/><rect x="10" y="11" width="1" height="1"/>
+      <rect x="6" y="12" width="1" height="1"/><rect x="9" y="12" width="1" height="1"/>
+      <rect x="7" y="13" width="2" height="1"/>
+    </g>
+    <g fill="#C81818">
+      <rect x="2" y="3" width="4" height="5"/><rect x="10" y="3" width="4" height="5"/>
+      <rect x="6" y="4" width="4" height="4"/>
+      <rect x="3" y="8" width="10" height="1"/><rect x="4" y="9" width="8" height="1"/>
+      <rect x="5" y="10" width="6" height="1"/><rect x="6" y="11" width="4" height="1"/>
+      <rect x="7" y="12" width="2" height="1"/>
+    </g>
+    <g fill="#FF6B6B">
+      <rect x="3" y="4" width="2" height="1"/><rect x="3" y="5" width="1" height="1"/>
+      <rect x="11" y="4" width="1" height="1"/>
+    </g>
+  </svg>`
+};
+
+function nosig(icon){
+  const glyph = icon && PIX[icon] ? PIX[icon] : '';
+  // scattered faded copies
+  const spots=[[9,17],[81,12],[16,74],[88,79],[47,8],[62,88],[30,44],[73,50]];
+  const dust = glyph ? spots.map(([x,y],k)=>
+    `<span class="dust" style="left:${x}%;top:${y}%;opacity:${k%2?0.07:0.11};transform:scale(${k%3?0.5:0.72})">${glyph}</span>`
+  ).join('') : '';
+  return `<div class="figbox"><div class="nosig">
+      ${dust}
+      ${glyph?`<span class="sym">${glyph}</span>`:''}
+      <div class="bars2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <span class="nstxt">No Signal</span>
+    </div><div class="cap">Figure pending</div></div>`;
+}
+
 function render(i){
   const p=PROJECTS[i]; cur=i;
   document.getElementById('ovIdx').textContent=String(i+1).padStart(2,'0')+' / '+String(PROJECTS.length).padStart(2,'0');
   document.getElementById('ovTitle').textContent=p.t;
   document.getElementById('ovMeta').textContent=p.meta;
   document.getElementById('ovBody').innerHTML=p.body.map(x=>'<p>'+esc(x)+'</p>').join('');
-  document.getElementById('ovFigs').innerHTML = p.figs.length
-    ? p.figs.map(f=>`<div class="figbox"><img src="${esc(f.src)}" alt="${esc(f.cap)}" loading="lazy"><div class="cap">${esc(f.cap)}</div></div>`).join('')
-    : `<div class="figbox"><div class="nosig"><div class="bars2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>No Signal</span></div><div class="cap">Figure pending</div></div>`;
+  document.getElementById('ovFigs').innerHTML = nosig(p.icon);
   document.getElementById('ovLinks').innerHTML=p.links.map(([l,u])=>`<a href="${esc(u)}" target="_blank" rel="noopener">${esc(l)} ↗</a>`).join('');
   document.getElementById('ovPrev').disabled = i===0;
   document.getElementById('ovNext').disabled = i===PROJECTS.length-1;
